@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens (premium, ink-dark, tek aksan) ───────────────────── */
+:root {
+  --bg: #0a0b0d;
+  --bg-elev: #111317;
+  --bg-elev-2: #16181d;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --text: #f3f4f6;
+  --text-secondary: #a2a8b4;
+  --text-tertiary: #6b7280;
+
+  --accent: #7f77dd;
+  --accent-soft: rgba(127, 119, 221, 0.14);
+
+  --up: #1d9e75;
+  --down: #e24b4a;
+
+  /* Apple-benzeri tipografi: SF Pro / sistem yığını. İleride Geist statik fontla değişebilir. */
+  --font-sans: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, "JetBrains Mono", "Cascadia Code", monospace;
+
+  /* Hareket eğrileri — yumuşak, "ucuz" değil */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  /* Çok hafif, dikkat dağıtmayan derinlik */
+  background-image: radial-gradient(
+    1200px 600px at 50% -10%,
+    rgba(127, 119, 221, 0.08),
+    transparent 70%
+  );
+  background-attachment: fixed;
+}
+
+/* Tipografi inceliği: başlıklar Apple gibi sıkı izli */
+h1,
+h2,
+h3 {
+  letter-spacing: -0.025em;
+}
+
+/* Sayısal hizalama (fiyat/oran kolonları) */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* İnce, premium scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text);
+}

@@ -1,0 +1,14 @@
+# moon — opsiyonel polyglot orkestratör (ADR-0003).
+# Kurulu değilken pnpm/uv komutları doğrudan kullanılır; bu config kurulunca devreye girer.
+# NOT: moon binary geliştirme makinesinde henüz yok — bu dosya doğrulanmadı (provisional).
+"$schema": "https://moonrepo.dev/schemas/workspace.json"
+
+projects:
+  web: "apps/web"
+  contracts-ts: "packages/contracts-ts"
+  api: "services/api"
+  pipelines: "pipelines"
+
+vcs:
+  manager: "git"
+  defaultBranch: "main"

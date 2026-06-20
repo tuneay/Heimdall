@@ -1,0 +1,9 @@
+# moon toolchain (provisional — bkz. .moon/workspace.yml notu)
+"$schema": "https://moonrepo.dev/schemas/toolchain.json"
+
+node:
+  packageManager: "pnpm"
+  pnpm:
+    version: "9.12.3"
+
+# Python tarafı uv ile yönetilir; moon'un python handler'ı opsiyonel olarak eklenebilir.
