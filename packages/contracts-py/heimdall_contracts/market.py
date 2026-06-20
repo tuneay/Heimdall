@@ -30,7 +30,7 @@ class OHLCVBar(PITRecord):
     source: str = Field(description="Veri kaynağı, ör. 'yfinance'.")
 
     @model_validator(mode="after")
-    def _ohlc_consistency(self) -> "OHLCVBar":
+    def _ohlc_consistency(self) -> OHLCVBar:
         # high tüm fiyatların en üstü, low en altı olmalı — bozuk veri erken yakalanır.
         if self.high < self.low:
             raise ValueError("high < low: tutarsız OHLCV.")

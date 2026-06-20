@@ -10,6 +10,9 @@ members = ["services/api", "pipelines", "packages/contracts-py"]
 [tool.uv.sources]
 heimdall-contracts = { workspace = true }
 
+[dependency-groups]
+dev = ["ruff>=0.6", "mypy>=1.10", "pytest>=8.0"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py312"

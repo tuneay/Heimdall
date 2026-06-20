@@ -9,12 +9,12 @@ Bkz. docs/ARCHITECTURE.md §1.1.
 from __future__ import annotations
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-class AssetClass(str, Enum):
+class AssetClass(StrEnum):
     EQUITY = "equity"
     INDEX = "index"
     ETF = "etf"
@@ -22,7 +22,7 @@ class AssetClass(str, Enum):
     CRYPTO = "crypto"
 
 
-class BarInterval(str, Enum):
+class BarInterval(StrEnum):
     M1 = "1m"
     M5 = "5m"
     M15 = "15m"
@@ -31,7 +31,7 @@ class BarInterval(str, Enum):
     W1 = "1w"
 
 
-class DataSourceKind(str, Enum):
+class DataSourceKind(StrEnum):
     MARKET = "market"
     FUNDAMENTAL = "fundamental"
     FILING = "filing"

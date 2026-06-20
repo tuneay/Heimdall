@@ -4,9 +4,10 @@ Faz 1 walking skeleton: tek BIST hissesinin (THYAO) günlük OHLCV verisini yfin
 çekip Timescale'e point-in-time damgalı upsert eder. Faz 2'de evren ve kaynaklar genişler.
 """
 
-from __future__ import annotations
-
-from datetime import datetime, timezone
+# NOT: Dagster, `context` parametresinin tipini runtime'da inceler; `from __future__
+# import annotations` anotasyonları string'e çevirip bu kontrolü bozar. Bu yüzden bu
+# asset modülünde bilinçli olarak kullanılmıyor (Python 3.12'de zaten gerek yok).
+from datetime import UTC, datetime
 from decimal import Decimal
 from typing import Any
 
@@ -50,9 +51,7 @@ def thyao_daily_ohlcv(
     symbol = "THYAO"
     yf_ticker = BIST_UNIVERSE[symbol]
 
-    raw = yf.download(
-        yf_ticker, period="1y", interval="1d", auto_adjust=False, progress=False
-    )
+    raw = yf.download(yf_ticker, period="1y", interval="1d", auto_adjust=False, progress=False)
     if raw is None or raw.empty:
         raise ValueError(f"yfinance boş veri döndü: {yf_ticker}")
 
@@ -61,14 +60,14 @@ def thyao_daily_ohlcv(
         raw.columns = raw.columns.get_level_values(0)
 
     # knowledge_time: bu veriyi ŞİMDİ öğrendik (point-in-time / as-of damgası).
-    knowledge_time = datetime.now(timezone.utc)
+    knowledge_time = datetime.now(UTC)
     has_adj = "Adj Close" in raw.columns
 
     rows: list[dict[str, Any]] = []
     for ts, r in raw.iterrows():
         event_time = pd.Timestamp(ts).to_pydatetime()
         if event_time.tzinfo is None:
-            event_time = event_time.replace(tzinfo=timezone.utc)
+            event_time = event_time.replace(tzinfo=UTC)
         rows.append(
             {
                 "tenant_id": "default",

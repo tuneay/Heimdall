@@ -24,11 +24,35 @@ platformu. Polyglot monorepo (Python + TypeScript), premium web UI. Şu an **Faz
 - **Infra:** `docker compose -f infra/docker-compose.yml up -d`
 - moon (opsiyonel): `.moon/` yapılandırılmış; kurulduğunda `moon run :dev`.
 
-## Çalışma ortamı notu (önemli)
-Geliştirme makinesinde şu an **Node + git var; Python/Docker/uv/pnpm henüz yok**.
-- Web (`apps/web`) ve `contracts-ts` Node ile çalışır/doğrulanabilir.
-- `services/api`, `pipelines`, `infra` dosya olarak hazırdır; runtime kurulunca koşar.
-- Python/Docker gerektiren bir şeyi "doğrulandı" diye işaretleme — koşturulamıyorsa söyle.
+## Çalışma ortamı (durum: 2026-06-20)
+Kurulu: **Node 24, git, Python 3.12.10, uv 0.11.21.** Kurulu değil: **Docker** (WSL2 +
+yeniden başlatma gerekir — kullanıcı kuracak). `corepack enable` ve global `pnpm` shim'i
+admin gerektirdi → `corepack pnpm ...` formu kullanılıyor.
+
+> **Her yeni oturumda araç zincirini yeniden doğrula** (`python --version`, `uv --version`,
+> `docker info`) — varsayma. PATH değişiklikleri terminal yeniden başlayınca yansır.
+
+### Komut ipuçları (Windows)
+- **Workspace üyelerini kurmak için daima** `uv sync --all-packages` (düz `uv sync` kökte
+  üyeleri kurmaz, sadece dev grubunu kurar).
+- **Kontrol/test çalıştırırken venv binary'lerini doğrudan çağır:**
+  `.venv\Scripts\python.exe`, `.venv\Scripts\ruff.exe`, `.venv\Scripts\pytest.exe`.
+  Sebep: `uv run ...` ortamı kök projeye göre yeniden sync'ler ve workspace üyelerini
+  (heimdall-api/pipelines) geçici olarak kaldırabilir.
+- `python` hâlâ MS Store stub'ına çözülüyorsa: `py -3.12` kullan ya da Ayarlar → Uygulama
+  yürütme diğer adları → python.exe/python3.exe'yi kapat.
+
+### Tuzaklar (öğrenildi)
+- **Dagster asset modüllerinde `from __future__ import annotations` KULLANMA** — Dagster
+  `context` tipini runtime'da inceler, stringleşmiş anotasyon kontrolü bozar
+  (`DagsterInvalidDefinitionError`). Bkz. `pipelines/.../assets/market_data.py`.
+- ruff Türkçe için `RUF001-003` kapalı; FastAPI için `B008` muaf (kök `pyproject.toml`).
+
+### Doğrulanmış durum (Faz 1)
+- ✅ Web: `next build` + tip kontrolü geçti. ✅ Python: ruff temiz, pytest 4/4, API +
+  Dagster pipeline + kontratlar import oluyor.
+- ⏳ DB'ye bağlı uçtan uca akış (pipeline→Timescale→API→web) **Docker kurulunca** doğrulanacak.
+- Python/Docker gerektiren bir şeyi koşturmadan "doğrulandı" deme — koşturulamıyorsa söyle.
 
 ## Karar verirken
 - Büyük/geri-alması pahalı karar → `docs/adr/` altına yeni ADR.

@@ -5,11 +5,10 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
+from heimdall_contracts import Instrument
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
-
-from heimdall_contracts import Instrument
 
 from ..db import get_session
 
