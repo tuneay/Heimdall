@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  web:
+    name: Web (TypeScript)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @heimdall/contracts typecheck
+      - run: pnpm --filter @heimdall/web typecheck
+      - run: pnpm --filter @heimdall/web build
+
+  python:
+    name: Python (lint + format)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv python install 3.12
+      - run: uv sync --all-packages
+      - run: uv run ruff check .
+      # İçe aktarım dumanı (import smoke) — kontratlar yüklenebiliyor mu?
+      - run: uv run python -c "import heimdall_contracts; print(heimdall_contracts.__all__)"
