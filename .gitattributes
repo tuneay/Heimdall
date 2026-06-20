@@ -1,0 +1,17 @@
+# Normalize line endings to LF in the repository (Windows-friendly checkout)
+* text=auto eol=lf
+
+# Binary assets — never normalize
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.parquet binary
+*.duckdb binary
+
+# Lockfiles: keep diffs collapsed in review
+pnpm-lock.yaml linguist-generated=true
+uv.lock linguist-generated=true

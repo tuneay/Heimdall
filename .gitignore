@@ -1,0 +1,57 @@
+# ─── Node / TypeScript ───────────────────────────────────────────────
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+.turbo/
+.vercel/
+
+# ─── Python ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.uv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ─── Dagster / MLflow / data ─────────────────────────────────────────
+.dagster/
+dagster_home/
+mlruns/
+mlartifacts/
+data/raw/
+data/processed/
+data/lake/
+*.duckdb
+*.parquet
+*.sqlite
+*.db
+
+# ─── Secrets & environment ───────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ─── Infra / Docker volumes ──────────────────────────────────────────
+infra/volumes/
+.docker/
+
+# ─── OS / editor ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+*.log
